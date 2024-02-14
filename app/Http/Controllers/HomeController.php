@@ -11,9 +11,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $user = User::first();
+        $users = User::get();
 
-        Notification::send($user, new OrderShipped);
+        foreach ($users as $user) {
+            Notification::send($user, new OrderShipped);
+        }
+        
 
         dd('done');
     }
