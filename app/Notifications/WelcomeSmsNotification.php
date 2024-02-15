@@ -5,10 +5,10 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\VonageMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\VonageMessage;
 
-class OrderShipped extends Notification implements ShouldQueue
+class WelcomeSmsNotification extends Notification
 {
     use Queueable;
 
@@ -22,6 +22,7 @@ class OrderShipped extends Notification implements ShouldQueue
         //
     }
 
+    
     /**
      * Get the notification's delivery channels.
      *
@@ -30,21 +31,14 @@ class OrderShipped extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['vonage'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toVonage($notifiable)
     {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+        return (new VonageMessage)
+                    ->content('User has been created and We are working with the data.')
+                    ->from('15554443333');
     }
 
     /**
